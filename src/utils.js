@@ -8,3 +8,15 @@ export const getAllArticles = () => {
     return data;
   });
 };
+
+export const getArticleById = (article_id) => {
+    return newsApi.get(`/api/articles/${article_id}`).then(({ data }) => {
+      return data;
+    });
+  };
+
+export const getCommentsByArticleId = (article_id) => {
+    return newsApi.get(`/api/articles/${article_id}/comments`).then(({ data }) => {
+        return data;
+      });
+}

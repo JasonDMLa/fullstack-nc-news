@@ -5,6 +5,7 @@ import "./App.css";
 import { getAllArticles } from "./utils";
 import ArticleContainer from "./components/ArticleContainer";
 import NavBar from "./components/NavBar";
+import ArticleCard from "./components/ArticleCard";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
     <NavBar/>
       <Routes>
         <Route path="/" element={<ArticleContainer />} />
-        
+        <Route path="/article/:article_id" element={<ArticleCard/>} />
       </Routes>
       {/* <ArticleContainer></ArticleContainer> */}
     </>
