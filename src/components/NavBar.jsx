@@ -11,13 +11,12 @@ const NavBar = ({}) => {
       </Link>
       <section className="navBar">
         <button>Home</button>
-        <form >
-        <label htmlFor="articles">Articles by Topic:</label>
-        <select id="" name="articles">
-          <option value="coding">coding</option>
-        </select>
-      
-      </form>
+        <form>
+          <label htmlFor="articles">Articles by Topic:</label>
+          <select id="" name="articles">
+            <option value="coding">coding</option>
+          </select>
+        </form>
         <button>Account</button>
       </section>
     </>
