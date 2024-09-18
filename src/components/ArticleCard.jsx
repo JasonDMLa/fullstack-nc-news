@@ -4,6 +4,9 @@ import { getArticleById } from "../utils";
 import { getCommentsByArticleId } from "../utils";
 import UpArrow from "../assets/UpArrow.png";
 import DownArrow from "../assets/DownArrow.png";
+import { postCommentToArticle } from "../utils";
+import { getAllUsers } from "../utils";
+import { patchVotesByArticleId } from "../utils";
 
 const ArticleCard = () => {
   const { article_id } = useParams();
@@ -13,6 +16,10 @@ const ArticleCard = () => {
   const [commentVotes, setCommentVotes] = useState();
   const [loadingPage, setLoadingPage] = useState(true);
   const [loadingComments, setLoadingComments] = useState(true);
+  const [userNameInput, setUserNameInput] = useState("");
+  const [commentBodyInput, setCommentBodyInput] = useState("");
+  const [displayBodyError, setDisplayBodyError] = useState(false);
+  const [displayUsernameError, setDisplayUserNameError] = useState(false);
 
   useEffect(() => {
     getArticleById(article_id)
@@ -25,7 +32,7 @@ const ArticleCard = () => {
         return getCommentsByArticleId(article_id);
       })
       .then(({ comments }) => {
-        setLoadingComments(false)
+        setLoadingComments(false);
         setComments(comments);
         const InitialCommentVotes = [];
         comments.forEach((comment) => {
@@ -40,10 +47,12 @@ const ArticleCard = () => {
 
   const upvoteArticle = () => {
     setArticleVotes((prevVotes) => prevVotes + 1);
+    patchVotesByArticleId(article_id,1)
   };
 
   const downvoteArticle = () => {
     setArticleVotes((prevVotes) => prevVotes - 1);
+    patchVotesByArticleId(article_id,-1)
   };
 
   const upvoteComment = (commentId) => {
@@ -58,6 +67,53 @@ const ArticleCard = () => {
       ...prevVotes,
       [commentId]: prevVotes[commentId] - 1,
     }));
+  };
+
+  const handleUserChange = (e) => {
+    setUserNameInput(e.target.value);
+    setDisplayUserNameError(false);
+  };
+
+  const handleCommentChange = (e) => {
+    setCommentBodyInput(e.target.value);
+    setDisplayBodyError(false);
+  };
+
+  const submitComment = (e, article_id, userNameInput, commentBodyInput) => {
+    e.preventDefault();
+    getAllUsers().then(({ users }) => {
+      if (
+        users.some((user) => {
+          return user.username === userNameInput;
+        })
+      ) {
+        if (commentBodyInput === "") {
+          setDisplayBodyError(true);
+        } else {
+          const tempComment = {
+            comment_id: Date.now(),
+            author: userNameInput,
+            body: commentBodyInput,
+            votes: 0,
+            created_at: new Date().toISOString(),
+          };
+          postCommentToArticle(article_id, userNameInput, commentBodyInput)
+            .then(() => {
+              setComments((prevComments) => [...prevComments, tempComment]);
+            })
+            .then(() => {
+              setUserNameInput("");
+              setCommentBodyInput("");
+            })
+            .catch((err) => {
+              console.log(err);
+              alert("Enter a valid Username");
+            });
+        }
+      } else {
+        setDisplayUserNameError(true);
+      }
+    });
   };
 
   if (loadingPage) {
@@ -92,7 +148,7 @@ const ArticleCard = () => {
         <p className="single-article-body">{articlePage.body}</p>
         <p className="single-article-author">Author: {articlePage.author}</p>
         <p className="single-article-body">
-          Date Created: {articlePage.created_at}
+          Date Created: {articlePage.created_at.split("T")[0]}
         </p>
         <div className="arrow-container">
           Vote on Article:
@@ -114,9 +170,9 @@ const ArticleCard = () => {
             return (
               <div className="each-comment" key={eachComment.comment_id}>
                 <p>Author: {eachComment.author}</p>
-                <p>Created_at: {eachComment.created_at} </p>
+                <p>Created_at: {eachComment.created_at.split("T")[0]} </p>
 
-                <p>Votes: {commentVotes[eachComment.comment_id]}</p>
+                <p>Votes: {commentVotes[eachComment.comment_id] || 0}</p>
 
                 <p>{eachComment.body}</p>
                 <div>
@@ -134,6 +190,43 @@ const ArticleCard = () => {
             );
           })}
         </section>
+
+        <form
+          onSubmit={(e) => {
+            submitComment(e, article_id, userNameInput, commentBodyInput);
+          }}
+        >
+          <h1>Add a Comment: </h1>
+          <label>UserName:</label>
+          <input
+            type="text"
+            value={userNameInput}
+            onChange={(e) => {
+              handleUserChange(e);
+            }}
+          ></input>
+          {displayUsernameError ? (
+            <p className="error-text">*Enter a valid username*</p>
+          ) : (
+            <p></p>
+          )}
+          <section>
+            <label>Enter Comment Here: </label>
+            <input
+              type="text"
+              value={commentBodyInput}
+              onChange={(e) => {
+                handleCommentChange(e);
+              }}
+            ></input>
+            {displayBodyError ? (
+              <p className="error-text">*Enter a comment*</p>
+            ) : (
+              <p></p>
+            )}
+          </section>
+          <button type="submit">Submit Comment</button>
+        </form>
       </div>
     </>
   );

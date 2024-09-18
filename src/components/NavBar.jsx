@@ -3,7 +3,7 @@ import { Route, Routes, Link } from "react-router-dom";
 import axios from "axios";
 import { getAllArticles } from "../utils";
 
-const NavBar = ({}) => {
+const NavBar = () => {
   return (
     <>
       <Link to="/">

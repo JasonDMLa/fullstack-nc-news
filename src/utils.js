@@ -4,19 +4,45 @@ const newsApi = axios.create({
 });
 
 export const getAllArticles = () => {
-  return newsApi.get("/api/articles").then(({data}) => {
+  return newsApi.get("/api/articles").then(({ data }) => {
     return data;
   });
 };
 
 export const getArticleById = (article_id) => {
-    return newsApi.get(`/api/articles/${article_id}`).then(({ data }) => {
+  return newsApi.get(`/api/articles/${article_id}`).then(({ data }) => {
+    return data;
+  });
+};
+
+export const getCommentsByArticleId = (article_id) => {
+  return newsApi
+    .get(`/api/articles/${article_id}/comments`)
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const postCommentToArticle = (article_id, username, body) => {
+  const uploadData = { author: username, body: body };
+  return newsApi
+    .post(`/api/articles/${article_id}/comments`, uploadData)
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const patchVotesByArticleId = (article_id, vote_increment) => {
+  const uploadData = { inc_votes: vote_increment};
+  return newsApi
+    .patch(`/api/articles/${article_id}`, uploadData)
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const getAllUsers = () => {
+    return newsApi.get("/api/users").then(({ data }) => {
       return data;
     });
   };
-
-export const getCommentsByArticleId = (article_id) => {
-    return newsApi.get(`/api/articles/${article_id}/comments`).then(({ data }) => {
-        return data;
-      });
-}
