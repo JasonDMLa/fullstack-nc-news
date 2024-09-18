@@ -1,7 +1,12 @@
 import UpArrow from "../assets/UpArrow.png";
 import DownArrow from "../assets/DownArrow.png";
+import { UserContext } from "../contexts/UserContexts";
+import { useContext } from "react";
+import { deleteCommentById } from "../utils";
 
-const ShowComments = ({ comments, commentVotes, setCommentVotes }) => {
+const ShowComments = ({ comments, setComments, commentVotes, setCommentVotes }) => {
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+
   const upvoteComment = (commentId) => {
     setCommentVotes((prevVotes) => ({
       ...prevVotes,
@@ -16,6 +21,21 @@ const ShowComments = ({ comments, commentVotes, setCommentVotes }) => {
     }));
   };
 
+
+  const handleDelete = (comment_id) => {
+    deleteCommentById(comment_id)
+      .then(() => {
+        setComments((prevComments) =>
+          prevComments.filter((comment) => comment.comment_id !== comment_id)
+        );
+        alert("comment deleted")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
   return (
     <section className="single-article-comment-body">
       <h2>Comments:</h2>
@@ -28,7 +48,11 @@ const ShowComments = ({ comments, commentVotes, setCommentVotes }) => {
           <div>
             Vote on Comment:
             <button onClick={() => upvoteComment(eachComment.comment_id)}>
-              <img src={UpArrow} alt="Upvote image" className="comment-arrow-image" />
+              <img
+                src={UpArrow}
+                alt="Upvote image"
+                className="comment-arrow-image"
+              />
             </button>
             <button onClick={() => downvoteComment(eachComment.comment_id)}>
               <img
@@ -38,6 +62,13 @@ const ShowComments = ({ comments, commentVotes, setCommentVotes }) => {
               />
             </button>
           </div>
+          {loggedInUser && loggedInUser.username === eachComment.author ? (
+            <button onClick={() => handleDelete(eachComment.comment_id)}>
+              delete
+            </button>
+          ) : (
+            <p></p>
+          )}
         </div>
       ))}
     </section>
