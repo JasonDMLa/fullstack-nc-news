@@ -159,6 +159,8 @@ h1 {
   height: auto; 
 }
 
-
+.error-text {
+  color: red
+}
 
 
