@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllArticles } from "../utils";
+import { Player } from "@lottiefiles/react-lottie-player";
+import loadingAnimation from "../assets/loadingAnimation.json";
 
-const ArticleContainer = ({}) => {
+const ArticleContainer = () => {
   const [allArticles, setAllArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,10 +22,14 @@ const ArticleContainer = ({}) => {
 
   if (loading) {
     return (
-      <p>
-        {" "}
-        <img src="https://media.istockphoto.com/id/1357880487/vector/loading.jpg?s=612x612&w=0&k=20&c=Xxl6jRy0tonD3CQ-dsIwModxouaKGIr4obAF2Za1DgI="></img>
-      </p>
+      <div>
+        <Player
+          autoplay
+          loop
+          src={loadingAnimation}
+          style={{ height: "300px", width: "300px" }}
+        />
+      </div>
     );
   }
 
@@ -40,9 +46,7 @@ const ArticleContainer = ({}) => {
                   className="article-image"
                   src={eachArticle.article_img_url}
                 ></img>
-                <p className="article-votes">
-                  Votes: {eachArticle.votes}
-                </p>
+                <p className="article-votes">Votes: {eachArticle.votes}</p>
               </Link>
             </div>
           );

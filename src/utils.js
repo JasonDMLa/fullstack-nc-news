@@ -33,7 +33,7 @@ export const postCommentToArticle = (article_id, username, body) => {
 };
 
 export const patchVotesByArticleId = (article_id, vote_increment) => {
-  const uploadData = { inc_votes: vote_increment};
+  const uploadData = { inc_votes: vote_increment };
   return newsApi
     .patch(`/api/articles/${article_id}`, uploadData)
     .then(({ data }) => {
@@ -42,7 +42,13 @@ export const patchVotesByArticleId = (article_id, vote_increment) => {
 };
 
 export const getAllUsers = () => {
-    return newsApi.get("/api/users").then(({ data }) => {
-      return data;
-    });
-  };
+  return newsApi.get("/api/users").then(({ data }) => {
+    return data;
+  });
+};
+
+export const deleteCommentById = (comment_id) => {
+  return newsApi.delete(`/api/comments/${comment_id}`).then(({ data }) => {
+    return data;
+  });
+};

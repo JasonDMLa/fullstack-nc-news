@@ -57,15 +57,7 @@ const ArticleCard = () => {
     );
   }
 
-  if (loadingComments) {
-    return (
-      <p>
-        LOADING COMMENTS...
-        {" "}
-        <img src="https://media.istockphoto.com/id/1302436594/video/loading-circle-icon-animation-on-white-background-4k-video-loopable-preloader.jpg?s=640x640&k=20&c=JQzv8UsXNfUnqQSULYW8B858UOM2O5CoXRgG9a0hRFk="></img>
-      </p>
-    );
-  }
+
 
   return (
     <div className="single-article-card">
@@ -97,6 +89,7 @@ const ArticleCard = () => {
 
       <ShowComments
         comments={comments}
+        setComments={setComments}
         commentVotes={commentVotes}
         setCommentVotes={setCommentVotes}
       />
