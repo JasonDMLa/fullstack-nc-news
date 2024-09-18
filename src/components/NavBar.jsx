@@ -1,7 +1,4 @@
-import { useEffect, useState, useContext } from "react";
-import { Route, Routes, Link } from "react-router-dom";
-import axios from "axios";
-import { getAllArticles } from "../utils";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -10,7 +7,9 @@ const NavBar = () => {
         <h1>NC NEWS</h1>
       </Link>
       <section className="navBar">
-        <button>Home</button>
+        <Link to="/">
+          <button>Home</button>
+        </Link>
         <form>
           <label htmlFor="articles">Articles by Topic:</label>
           <select id="" name="articles">
