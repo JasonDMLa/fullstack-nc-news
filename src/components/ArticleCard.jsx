@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleById, getCommentsByArticleId, patchVotesByArticleId } from "../utils";
+import {
+  getArticleById,
+  getCommentsByArticleId,
+  patchVotesByArticleId,
+} from "../utils";
 import ShowComments from "./ShowComments";
 import PostComment from "./PostComment";
 import UpArrow from "../assets/UpArrow.png";
@@ -50,14 +54,11 @@ const ArticleCard = () => {
   if (loadingPage) {
     return (
       <p>
-        LOADING PAGE...
-        {" "}
+        LOADING PAGE...{" "}
         <img src="https://media.istockphoto.com/id/1357880487/vector/loading.jpg?s=612x612&w=0&k=20&c=Xxl6jRy0tonD3CQ-dsIwModxouaKGIr4obAF2Za1DgI="></img>
       </p>
     );
   }
-
-
 
   return (
     <div className="single-article-card">
@@ -86,14 +87,13 @@ const ArticleCard = () => {
       <p className="single-article-comment-count">
         Comment Count: {articlePage.comment_count}
       </p>
-
+      <PostComment article_id={article_id} setComments={setComments} />
       <ShowComments
         comments={comments}
         setComments={setComments}
         commentVotes={commentVotes}
         setCommentVotes={setCommentVotes}
       />
-      <PostComment article_id={article_id} setComments={setComments} />
     </div>
   );
 };

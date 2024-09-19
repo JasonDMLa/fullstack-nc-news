@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getAllArticles } from "../utils";
+import { getArticlesByTopic } from "../utils";
+import { useParams, Link } from "react-router-dom";
+import TopicsContainer from "./TopicsContainer";
 import { Player } from "@lottiefiles/react-lottie-player";
 import loadingAnimation from "../assets/loadingAnimation.json";
-import TopicsContainer from "./TopicsContainer";
-const ArticleContainer = () => {
-  const [allArticles, setAllArticles] = useState([]);
+
+const ArticlesByTopics = () => {
+  const [articles, setArticles] = useState([]);
+  const { topic } = useParams();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAllArticles()
+    setLoading(true)
+    getArticlesByTopic(topic)
       .then(({ articles }) => {
-        setAllArticles(articles);
         setLoading(false);
+        setArticles(articles);
       })
-      .catch((error) => {
-        console.log("error");
-        setLoading(false);
-      });
-  }, []);
+      .then(() => {});
+  }, [topic]);
 
   if (loading) {
     return (
@@ -35,10 +35,10 @@ const ArticleContainer = () => {
 
   return (
     <article>
-      <TopicsContainer/>
-      <h1>Articles:</h1>
+      <TopicsContainer />
+      <h1>Articles for {topic}:</h1>
       <div className="article-container">
-        {allArticles.map((eachArticle) => {
+        {articles.map((eachArticle) => {
           return (
             <div className="article-card" key={eachArticle.article_id}>
               <Link to={`/articles/${eachArticle.article_id}`}>
@@ -57,4 +57,4 @@ const ArticleContainer = () => {
   );
 };
 
-export default ArticleContainer;
+export default ArticlesByTopics;
