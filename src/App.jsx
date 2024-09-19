@@ -5,12 +5,11 @@ import NavBar from "./components/NavBar";
 import ArticleCard from "./components/ArticleCard";
 import AccountLogin from "./components/AccountLogin";
 import { UserContext } from "./contexts/UserContexts";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import AccountProfile from "./components/AccountProfile";
-
+import ArticlesByTopics from "./components/ArticlesByTopic";
 
 function App() {
-  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
   return (
     <>
       <NavBar />
@@ -19,6 +18,7 @@ function App() {
         <Route path="/articles/:article_id" element={<ArticleCard />} />
         <Route path="/login" element={<AccountLogin />} />
         <Route path="/profile/:name" element={<AccountProfile />} />
+        <Route path="/articles/topics/:topic" element={<ArticlesByTopics />} />
       </Routes>
     </>
   );
