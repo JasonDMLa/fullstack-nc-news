@@ -62,28 +62,30 @@ const PostComment = ({ article_id, setComments }) => {
   };
 
   return (
-    <form onSubmit={submitComment}>
-      <h1>Add a Comment: </h1>
-      <label>UserName:</label>
-      <input
-        type="text"
-        value={userNameInput}
-        onChange={handleUserChange}
-      ></input>
-      {displayUsernameError && (
-        <p className="error-text">*Enter a valid username*</p>
-      )}
-      <section>
-        <label>Enter Comment Here: </label>
+    <div className="comment-container">
+      <form onSubmit={submitComment}>
+        <h1>Add a Comment: </h1>
+        <label>UserName:</label>
         <input
           type="text"
-          value={commentBodyInput}
-          onChange={handleCommentChange}
+          value={userNameInput}
+          onChange={handleUserChange}
         ></input>
-        {displayBodyError && <p className="error-text">*Enter a comment*</p>}
-      </section>
-      <button type="submit">Submit Comment</button>
-    </form>
+        {displayUsernameError && (
+          <p className="error-text">*Enter a valid username*</p>
+        )}
+        <section>
+          <label>Enter Comment: </label>
+          <input
+            type="text"
+            value={commentBodyInput}
+            onChange={handleCommentChange}
+          ></input>
+          {displayBodyError && <p className="error-text">*Enter a comment*</p>}
+        </section>
+        <button type="submit">Submit Comment</button>
+      </form>
+    </div>
   );
 };
 

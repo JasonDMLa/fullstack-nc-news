@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllArticles } from "../utils";
-import { Player } from "@lottiefiles/react-lottie-player";
-import loadingAnimation from "../assets/loadingAnimation.json";
 import TopicsContainer from "./TopicsContainer";
 import SortingContainer from "./SortingContainer";
+import LoadingHandler from "./LoadingHandler";
 
 const ArticleContainer = () => {
   const [allArticles, setAllArticles] = useState([]);
@@ -23,22 +22,15 @@ const ArticleContainer = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div>
-        <Player
-          autoplay
-          loop
-          src={loadingAnimation}
-          style={{ height: "300px", width: "300px" }}
-        />
-      </div>
-    );
+    return <LoadingHandler/>
   }
 
   return (
     <article>
+      <div className="sorting-container">
       <TopicsContainer />
       <SortingContainer setAllArticles={setAllArticles}/>
+      </div>
       <h1>Showing All Articles:</h1>
       <div className="article-container">
         {allArticles.map((eachArticle) => {

@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { getArticlesByTopic } from "../utils";
 import { useParams, Link } from "react-router-dom";
 import TopicsContainer from "./TopicsContainer";
-import { Player } from "@lottiefiles/react-lottie-player";
-import loadingAnimation from "../assets/loadingAnimation.json";
 import SortingContainer from "./SortingContainer";
 import ErrorComponent from "./ErrorHandler";
+import LoadingHandler from "./LoadingHandler";
 
 const ArticlesByTopics = () => {
   const [articles, setArticles] = useState([]);
@@ -20,9 +19,9 @@ const ArticlesByTopics = () => {
         setLoading(false);
         setArticles(articles);
       })
-      .catch((err)=>{
+      .catch((err) => {
         setError(err);
-      })
+      });
   }, [topic]);
 
   if (error) {
@@ -30,22 +29,15 @@ const ArticlesByTopics = () => {
   }
 
   if (loading) {
-    return (
-      <div>
-        <Player
-          autoplay
-          loop
-          src={loadingAnimation}
-          style={{ height: "300px", width: "300px" }}
-        />
-      </div>
-    );
+    return <LoadingHandler />;
   }
 
   return (
     <article>
-      <TopicsContainer />
-      <SortingContainer setArticles={setArticles}/>
+      <div className="sorting-container">
+        <TopicsContainer />
+        <SortingContainer setArticles={setArticles} />
+      </div>
       <h1>Articles for {topic}:</h1>
       <div className="article-container">
         {articles.map((eachArticle) => {

@@ -51,9 +51,14 @@ const AccountLogin = () => {
     checkUserExists();
   };
 
+  const handleUserSelect =(e) => {
+    setInput(e.target.value);
+    setDisplayText(false);
+    setCorrectUser(false);
+  }
 
   return (
-    <>
+    <div className="login-container">
       <form onSubmit={submitClicker}>
         <h1>Login Page</h1>
         <label>Username:</label>
@@ -62,15 +67,24 @@ const AccountLogin = () => {
         <button type="submit">Login</button>
 
         {displayText && !correctUser && (
-          <p>Enter a Valid User (check your capitals)</p>
+          <p className="error-text">Enter a Valid User (check your capitals)</p>
         )}
       </form>
 
       <Link to={`/create`}>
-      *Currently Unavailable*
+        *Currently Unavailable*
         <button>CLICK TO CREATE ACCOUNT</button>
       </Link>
-    </>
+      <p>
+        Available Users:
+        <select id="users-bar" name="user" onClick={handleUserSelect}>
+          <option></option>
+          {allUsers.map((user, index) => {
+            return <option key={index}>{user.username}</option>;
+          })}
+        </select>
+      </p>
+      </div>
   );
 };
 

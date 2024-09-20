@@ -43,7 +43,7 @@ const TopicsContainer = () => {
   <ArticlesByTopic topicToSearch={topicToSearch} />;
   return (
     <>
-      <h1>Select a topic: </h1>
+      <h2>Select a topic: </h2>
       <label htmlFor="topics">View Articles by Topic:</label>
       <select id="topics-bar" name="topics" onClick={handleChange}>
         <option></option>

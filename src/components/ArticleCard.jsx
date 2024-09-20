@@ -10,6 +10,7 @@ import PostComment from "./PostComment";
 import UpArrow from "../assets/UpArrow.png";
 import DownArrow from "../assets/DownArrow.png";
 import ErrorComponent from "./ErrorHandler";
+import LoadingHandler from "./LoadingHandler";
 
 const ArticleCard = () => {
   const { article_id } = useParams();
@@ -49,12 +50,7 @@ const ArticleCard = () => {
   }
 
   if (loadingPage) {
-    return (
-      <p>
-        LOADING PAGE...{" "}
-        <img src="https://media.istockphoto.com/id/1357880487/vector/loading.jpg?s=612x612&w=0&k=20&c=Xxl6jRy0tonD3CQ-dsIwModxouaKGIr4obAF2Za1DgI="></img>
-      </p>
-    );
+    return <LoadingHandler/>
   }
 
   const upvoteArticle = () => {
@@ -76,8 +72,8 @@ const ArticleCard = () => {
         alt="Article image"
       />
       <p className="single-article-topic">Topic: {articlePage.topic}</p>
-      <p className="single-article-body">{articlePage.body}</p>
       <p className="single-article-author">Author: {articlePage.author}</p>
+      <p className="single-article-body">{articlePage.body}</p>
       <p className="single-article-body">
         Date Created: {articlePage.created_at.split("T")[0]}
       </p>

@@ -52,11 +52,11 @@ const SortingContainer = ({ setAllArticles, setArticles }) => {
 
   if (error) {
     return <ErrorComponent message={error.message} />;
-  }
+  } 
 
   return (
     <>
-      <h1>Sort Articles: </h1>
+      <h2>Sort Articles: </h2>
       <label htmlFor="sort">Sort By:</label>
       <select id="sort" value={sortBy} onChange={handleSortChange}>
         {sortByTerms.map((term) => (
