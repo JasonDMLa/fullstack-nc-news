@@ -5,11 +5,13 @@ import TopicsContainer from "./TopicsContainer";
 import { Player } from "@lottiefiles/react-lottie-player";
 import loadingAnimation from "../assets/loadingAnimation.json";
 import SortingContainer from "./SortingContainer";
+import ErrorComponent from "./ErrorHandler";
 
 const ArticlesByTopics = () => {
   const [articles, setArticles] = useState([]);
   const { topic } = useParams();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -18,8 +20,14 @@ const ArticlesByTopics = () => {
         setLoading(false);
         setArticles(articles);
       })
-      .then(() => {});
+      .catch((err)=>{
+        setError(err);
+      })
   }, [topic]);
+
+  if (error) {
+    return <ErrorComponent message={error.message} />;
+  }
 
   if (loading) {
     return (

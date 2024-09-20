@@ -1,11 +1,18 @@
 import UpArrow from "../assets/UpArrow.png";
 import DownArrow from "../assets/DownArrow.png";
 import { UserContext } from "../contexts/UserContexts";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { deleteCommentById } from "../utils";
+import ErrorComponent from "./ErrorHandler";
 
-const ShowComments = ({ comments, setComments, commentVotes, setCommentVotes }) => {
+const ShowComments = ({
+  comments,
+  setComments,
+  commentVotes,
+  setCommentVotes,
+}) => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const [error, setError] = useState(null);
 
   const upvoteComment = (commentId) => {
     setCommentVotes((prevVotes) => ({
@@ -21,20 +28,23 @@ const ShowComments = ({ comments, setComments, commentVotes, setCommentVotes }) 
     }));
   };
 
-
   const handleDelete = (comment_id) => {
     deleteCommentById(comment_id)
       .then(() => {
         setComments((prevComments) =>
           prevComments.filter((comment) => comment.comment_id !== comment_id)
         );
-        alert("comment deleted")
+        alert("comment deleted");
       })
       .catch((err) => {
         console.log(err);
+        setError(err);
       });
   };
 
+  if (error) {
+    return <ErrorComponent message={error.message} />;
+  }
 
   return (
     <section className="single-article-comment-body">
