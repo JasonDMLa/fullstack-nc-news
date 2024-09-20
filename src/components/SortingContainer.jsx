@@ -53,13 +53,11 @@ const SortingContainer = ({ setAllArticles,setArticles }) => {
           </option>
         ))}
       </select>
-
       <label htmlFor="order">Order:</label>
       <select id="order" value={order} onChange={handleOrderChange}>
         <option value="desc">Descending</option>
         <option value="asc">Ascending</option>
       </select>
-
       <button onClick={handleSortClick}>Apply</button>
     </>
   );
