@@ -18,7 +18,9 @@ const NavBar = () => {
         {loggedInUser ? (
         <span>Logged in as: {loggedInUser.username}</span>
       ) : (
-        <Link to="/login">Login</Link>
+        <Link to="/login">
+          <button>Login</button>
+          </Link>
       )}
       {loggedInUser && (
         <Link to={`/profile/${loggedInUser.username}`}>

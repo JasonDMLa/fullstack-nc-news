@@ -9,6 +9,7 @@ import ShowComments from "./ShowComments";
 import PostComment from "./PostComment";
 import UpArrow from "../assets/UpArrow.png";
 import DownArrow from "../assets/DownArrow.png";
+import ErrorComponent from "./ErrorHandler";
 
 const ArticleCard = () => {
   const { article_id } = useParams();
@@ -18,6 +19,7 @@ const ArticleCard = () => {
   const [commentVotes, setCommentVotes] = useState({});
   const [loadingPage, setLoadingPage] = useState(true);
   const [loadingComments, setLoadingComments] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getArticleById(article_id)
@@ -37,9 +39,23 @@ const ArticleCard = () => {
         setCommentVotes(initialCommentVotes);
       })
       .catch((err) => {
+        setError(err);
         console.log(err);
       });
   }, []);
+
+  if (error) {
+    return <ErrorComponent message={error.message} />;
+  }
+
+  if (loadingPage) {
+    return (
+      <p>
+        LOADING PAGE...{" "}
+        <img src="https://media.istockphoto.com/id/1357880487/vector/loading.jpg?s=612x612&w=0&k=20&c=Xxl6jRy0tonD3CQ-dsIwModxouaKGIr4obAF2Za1DgI="></img>
+      </p>
+    );
+  }
 
   const upvoteArticle = () => {
     setArticleVotes((prevVotes) => prevVotes + 1);
@@ -50,15 +66,6 @@ const ArticleCard = () => {
     setArticleVotes((prevVotes) => prevVotes - 1);
     patchVotesByArticleId(article_id, -1);
   };
-
-  if (loadingPage) {
-    return (
-      <p>
-        LOADING PAGE...{" "}
-        <img src="https://media.istockphoto.com/id/1357880487/vector/loading.jpg?s=612x612&w=0&k=20&c=Xxl6jRy0tonD3CQ-dsIwModxouaKGIr4obAF2Za1DgI="></img>
-      </p>
-    );
-  }
 
   return (
     <div className="single-article-card">

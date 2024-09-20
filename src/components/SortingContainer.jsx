@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, useParams } from "react-router-dom";
-import { getArticlesBySearch} from "../utils";
+import { getArticlesBySearch } from "../utils";
+import ErrorComponent from "./ErrorHandler";
 
 const sortByTerms = [
   "article_id",
@@ -12,13 +13,14 @@ const sortByTerms = [
   "votes",
 ];
 
-const SortingContainer = ({ setAllArticles,setArticles }) => {
+const SortingContainer = ({ setAllArticles, setArticles }) => {
   const { topic } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState(
     searchParams.get("sort_by") || "created_at"
   );
   const [order, setOrder] = useState(searchParams.get("order") || "desc");
+  const [error, setError] = useState(null);
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
@@ -32,15 +34,25 @@ const SortingContainer = ({ setAllArticles,setArticles }) => {
     setSearchParams({ sort_by: sortBy, order: order });
     if (topic) {
       getArticlesBySearch(sortBy, order, topic)
-      .then(({ articles }) => {
-        setArticles(articles);
-      });
+        .then(({ articles }) => {
+          setArticles(articles);
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(err);
+        });
     } else {
       getArticlesBySearch(sortBy, order).then(({ articles }) => {
-        setAllArticles(articles);
+        setAllArticles(articles).catch((err) => {
+          setError(err);
+        });
       });
     }
   };
+
+  if (error) {
+    return <ErrorComponent message={error.message} />;
+  }
 
   return (
     <>

@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllUsers } from "../utils";
 import { UserContext } from "../contexts/UserContexts";
+import ErrorComponent from "./ErrorHandler";
 
 const AccountLogin = () => {
   const [input, setInput] = useState("");
@@ -9,6 +10,7 @@ const AccountLogin = () => {
   const [correctUser, setCorrectUser] = useState(false);
   const [displayText, setDisplayText] = useState(false);
   const { setLoggedInUser } = useContext(UserContext);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,8 +20,13 @@ const AccountLogin = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(err);
       });
   }, []);
+
+  if (error) {
+    return <ErrorComponent message={error.message} />;
+  }
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
