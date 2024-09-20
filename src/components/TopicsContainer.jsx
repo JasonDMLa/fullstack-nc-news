@@ -16,6 +16,9 @@ const TopicsContainer = () => {
   }, []);
 
   const handleChange = (e) => {
+    if (e.target.value){
+        setDisplayError(false)
+    }
     setTopicToSearch(e.target.value);
   };
 

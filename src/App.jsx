@@ -4,8 +4,6 @@ import ArticleContainer from "./components/ArticleContainer";
 import NavBar from "./components/NavBar";
 import ArticleCard from "./components/ArticleCard";
 import AccountLogin from "./components/AccountLogin";
-import { UserContext } from "./contexts/UserContexts";
-import { useContext } from "react";
 import AccountProfile from "./components/AccountProfile";
 import ArticlesByTopics from "./components/ArticlesByTopic";
 

@@ -4,6 +4,8 @@ import { getAllArticles } from "../utils";
 import { Player } from "@lottiefiles/react-lottie-player";
 import loadingAnimation from "../assets/loadingAnimation.json";
 import TopicsContainer from "./TopicsContainer";
+import SortingContainer from "./SortingContainer";
+
 const ArticleContainer = () => {
   const [allArticles, setAllArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,8 +37,9 @@ const ArticleContainer = () => {
 
   return (
     <article>
-      <TopicsContainer/>
-      <h1>Articles:</h1>
+      <TopicsContainer />
+      <SortingContainer setAllArticles={setAllArticles}/>
+      <h1>Showing All Articles:</h1>
       <div className="article-container">
         {allArticles.map((eachArticle) => {
           return (

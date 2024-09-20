@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import TopicsContainer from "./TopicsContainer";
 import { Player } from "@lottiefiles/react-lottie-player";
 import loadingAnimation from "../assets/loadingAnimation.json";
+import SortingContainer from "./SortingContainer";
 
 const ArticlesByTopics = () => {
   const [articles, setArticles] = useState([]);
@@ -11,7 +12,7 @@ const ArticlesByTopics = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     getArticlesByTopic(topic)
       .then(({ articles }) => {
         setLoading(false);
@@ -36,6 +37,7 @@ const ArticlesByTopics = () => {
   return (
     <article>
       <TopicsContainer />
+      <SortingContainer setArticles={setArticles}/>
       <h1>Articles for {topic}:</h1>
       <div className="article-container">
         {articles.map((eachArticle) => {
