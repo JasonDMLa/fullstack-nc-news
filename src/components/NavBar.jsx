@@ -15,12 +15,6 @@ const NavBar = () => {
         <Link to="/">
           <button>Home</button>
         </Link>
-        <form>
-          <label htmlFor="articles">Articles by Topic:</label>
-          <select id="" name="articles">
-            <option value="coding">coding</option>
-          </select>
-        </form>
         {loggedInUser ? (
         <span>Logged in as: {loggedInUser.username}</span>
       ) : (

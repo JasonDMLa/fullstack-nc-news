@@ -57,10 +57,24 @@ export const getAllTopics = () => {
   return newsApi.get("/api/topics").then(({ data }) => {
     return data;
   });
-}
+};
 
 export const getArticlesByTopic = (topic) => {
   return newsApi.get(`/api/articles/?topic=${topic}`).then(({ data }) => {
     return data;
   });
-}
+};
+
+export const getArticlesBySearch = ( sort_by = 'created_at', order = 'desc',topic) => {
+  if (topic){
+    return newsApi.get(`/api/articles/?sort_by=${sort_by}&order=${order}&topic=${topic}`).then(({ data }) => {
+      return data;
+    });
+  } else {
+    return newsApi.get(`/api/articles/?sort_by=${sort_by}&order=${order}`).then(({ data }) => {
+      return data;
+    });
+  }
+ 
+};
+
